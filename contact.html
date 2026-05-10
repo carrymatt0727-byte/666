@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>檢察長信箱 - 臺灣臺島地方檢察署</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        .contact-section { padding: 60px 0; background: #fff; }
+        .contact-form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+        }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--primary-dark); }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+        }
+        .form-group textarea { height: 150px; resize: vertical; }
+        .submit-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+        }
+        .submit-btn:hover { background: var(--primary-dark); transform: translateY(-2px); }
+        .form-info {
+            background: #e1f5fe;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+            color: #0277bd;
+            border-left: 5px solid #0288d1;
+        }
+    </style>
+</head>
+<body>
+    <!-- 沿用主導航列 -->
+    <header class="main-header">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-img-placeholder"><i class="fas fa-balance-scale"></i></div>
+                <div class="logo-text">
+                    <h1>臺灣臺島地方檢察署</h1>
+                    <p>Taiwan Taidao District Prosecutors Office</p>
+                </div>
+            </a>
+            <nav class="main-nav">
+                <ul class="nav-menu">
+                    <li><a href="index.html">回首頁</a></li>
+                    <li><a href="guide.html">民眾導覽</a></li>
+                    <li><a href="protection.html">司法保護</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="contact-section">
+        <div class="container">
+            <div class="section-header" style="text-align: center; border: none; margin-bottom: 40px;">
+                <h2 style="font-size: 2.5rem; color: var(--primary-dark);">檢察長信箱</h2>
+                <p style="color: var(--text-muted); margin-top: 10px;">您的意見是我們進步的動力，歡迎提供建言。</p>
+            </div>
+
+            <div class="contact-form-container">
+                <div class="form-info">
+                    <i class="fas fa-info-circle"></i> 溫馨提示：請詳實填寫您的聯絡資訊，以便我們後續回覆與處理。本信箱受 SSL 安全加密保護。
+                </div>
+
+                <!-- Web3Forms 表單 -->
+                <form action="https://api.web3forms.com/submit" method="POST" id="contact-form">
+                    <!-- 隱藏欄位：Web3Forms Access Key -->
+                    <input type="hidden" name="access_key" value="98c38860-de19-4e3e-bd27-2097dac8848e">
+                    <input type="hidden" name="subject" value="來自臺島地檢署官網的新郵件">
+                    <input type="hidden" name="from_name" value="臺島地檢署官網">
+
+                    <div class="form-group">
+                        <label for="name">真實姓名 *</label>
+                        <input type="text" name="name" id="name" placeholder="請輸入姓名" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">電子信箱 *</label>
+                        <input type="email" name="email" id="email" placeholder="example@mail.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="type">信件類別 *</label>
+                        <select name="message_type" id="type" required>
+                            <option value="">請選擇類別</option>
+                            <option value="建議">政風檢舉</option>
+                            <option value="陳情">法律建言</option>
+                            <option value="諮詢">一般業務諮詢</option>
+                            <option value="其他">其他</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">郵件內容 *</label>
+                        <textarea name="message" id="message" placeholder="請詳細說明您的事由..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i> 確認送出
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-bottom">
+            <p>&copy; 2026 臺灣臺島地方檢察署 版權所有</p>
+        </div>
+    </footer>
+</body>
+</html>

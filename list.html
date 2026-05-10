@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>資訊公開 - 臺灣臺島地方檢察署</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-img-placeholder"><i class="fas fa-balance-scale"></i></div>
+                <div class="logo-text"><h1>臺灣臺島地方檢察署</h1><p>Taiwan Taidao District Prosecutors Office</p></div>
+            </a>
+            <nav class="main-nav"><ul class="nav-menu"><li><a href="index.html">回首頁</a></li><li><a href="guide.html">民眾導覽</a></li><li><a href="protection.html">司法保護</a></li></ul></nav>
+        </div>
+    </header>
+
+    <main class="container" style="padding: 40px 0;">
+        <div class="section-header">
+            <h2 id="list-title">書狀範例下載</h2>
+        </div>
+        
+        <div class="news-container">
+            <div class="news-tabs" id="list-tabs">
+                <button class="tab-btn active" onclick="filterList('downloads')">書狀範例</button>
+                <button class="tab-btn" onclick="filterList('news')">新聞稿</button>
+                <button class="tab-btn" onclick="filterList('notice')">公示送達</button>
+            </div>
+            <div class="news-content active" id="list-container">
+                <!-- 資料將由 JS 載入 -->
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const docs = [
+            { type: 'downloads', date: '2026-05-10', title: '刑事告訴狀（一般案件用）', link: 'docs/doc1.doc' },
+            { type: 'downloads', date: '2026-05-09', title: '刑事委任書', link: 'docs/doc2.doc' },
+            { type: 'news', date: '2026-05-08', title: '本署指揮破獲大規模電信詐騙機房', link: '#' },
+            { type: 'notice', date: '2026-05-10', title: '公示送達本署115年度他字第11505001號傳票', link: 'summons_11505001.pdf' }
+        ];
+
+        function filterList(type) {
+            const container = document.getElementById('list-container');
+            const title = document.getElementById('list-title');
+            
+            // 更新 UI 狀態
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.innerText.includes(type === 'downloads' ? '書狀' : type === 'news' ? '新聞' : '公示')) btn.classList.add('active');
+            });
+
+            title.innerText = type === 'downloads' ? '書狀範例下載' : type === 'news' ? '新聞稿及澄清專區' : '公示送達公告';
+
+            const filtered = docs.filter(d => d.type === type);
+            container.innerHTML = filtered.map(d => `
+                <a href="${d.link}" class="news-item">
+                    <div class="news-meta"><span class="news-date">${d.date}</span></div>
+                    <span class="news-title">${d.title}</span>
+                    <i class="fas fa-download" style="margin-left:auto; color:var(--primary-color);"></i>
+                </a>
+            `).join('');
+        }
+
+        // 初始載入
+        const params = new URLSearchParams(window.location.search);
+        filterList(params.get('type') || 'downloads');
+    </script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理員登入 - 臺灣臺島地方檢察署</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .login-container { height: 100vh; display: flex; align-items: center; justify-content: center; background: #f0f2f5; }
+        .login-card { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; max-width: 400px; width: 90%; }
+        .discord-btn { background: #5865F2; color: white; padding: 15px 30px; border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; font-weight: 600; margin-top: 20px; transition: 0.3s; width: 100%; justify-content: center; }
+        .discord-btn:hover { background: #4752c4; transform: translateY(-2px); }
+        .dev-link { margin-top: 25px; font-size: 0.8rem; color: #999; cursor: pointer; text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <i class="fa-solid fa-user-shield" style="font-size: 3.5rem; color: #0b5394; margin-bottom: 20px;"></i>
+            <h2>機關後台管理系統</h2>
+            <p style="color: #666; margin-top: 10px;">請使用授權之 Discord 帳號登入</p>
+            
+            <!-- Discord 登入按鈕 -->
+            <a href="#" id="login-btn" class="discord-btn">
+                <i class="fa-brands fa-discord"></i> 使用 Discord 登入
+            </a>
+
+            <div id="error-msg" style="color: #cc0000; margin-top: 15px; display: none; font-size: 0.9rem; background: #ffebee; padding: 10px; border-radius: 5px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // 設定區
+        const CLIENT_ID = '1502945484908662905'; 
+        const REDIRECT_URI = window.location.origin + '/admin-login.html';
+
+        const loginBtn = document.getElementById('login-btn');
+        loginBtn.href = `https://discord.com/api/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=token&scope=identify`;
+
+        // Discord 跳轉後的處理
+        window.onload = () => {
+            const fragment = new URLSearchParams(window.location.hash.slice(1));
+            const accessToken = fragment.get('access_token');
+
+            if (accessToken) {
+                document.getElementById('login-btn').innerText = '驗證身分中...';
+                fetch('https://discord.com/api/users/@me', {
+                    headers: { authorization: `Bearer ${accessToken}` }
+                })
+                .then(res => res.json())
+                .then(user => {
+                    if (user.username === 'benzcclas') {
+                        localStorage.setItem('admin_token', accessToken);
+                        localStorage.setItem('admin_user', user.username);
+                        window.location.href = 'admin-dashboard.html';
+                    } else {
+                        const error = document.getElementById('error-msg');
+                        error.innerText = `抱歉，帳號 ${user.username} 不在授權名單中。`;
+                        error.style.display = 'block';
+                        document.getElementById('login-btn').innerText = '使用 Discord 登入';
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    document.getElementById('error-msg').innerText = '登入失敗，請確認 Client ID 或 Redirect URI 設定。';
+                    document.getElementById('error-msg').style.display = 'block';
+                });
+            }
+        };
+    </script>
+</body>
+</html>
