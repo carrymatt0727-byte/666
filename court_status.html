@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>開庭進度查詢 - 臺灣臺島地方檢察署</title>
+    <title>檢察官開庭進度查詢 - 臺灣臺島地方檢察署</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <header class="main-header">
@@ -14,42 +15,75 @@
                 <div class="logo-img-placeholder"><i class="fas fa-balance-scale"></i></div>
                 <div class="logo-text"><h1>臺灣臺島地方檢察署</h1><p>Taiwan Taidao District Prosecutors Office</p></div>
             </a>
-            <nav class="main-nav"><ul class="nav-menu"><li><a href="index.html">回首頁</a></li><li><a href="guide.html">民眾導覽</a></li></ul></nav>
+            <nav class="main-nav"><ul class="nav-menu"><li><a href="index.html">回首頁</a></li><li><a href="guide.html">民眾導覽</a></li><li><a href="protection.html">司法保護</a></li></ul></nav>
         </div>
     </header>
 
-    <main class="container" style="padding: 60px 0;">
-        <div class="section-header"><h2>開庭進度即時查詢</h2></div>
-        <div class="news-container" style="padding: 30px;">
-            <div style="background:#e1f5fe; padding:20px; border-radius:8px; margin-bottom:30px; border-left:5px solid #0b5394;">
-                <i class="fas fa-info-circle"></i> 本查詢系統提供本日各偵查庭之預計開庭進度。實際進度請以現場為準。
+    <main class="container" style="padding: 40px 20px;">
+        <h1 style="color: var(--primary-dark); margin-bottom: 10px;">檢察官開庭進度查詢</h1>
+        <p style="color: var(--text-muted); margin-bottom: 30px;">所屬檢察機關檢察官開庭進度即時資訊</p>
+
+        <!-- 注意事項與說明 -->
+        <div class="notice-box" style="background-color: #fff8e1; border-left: 5px solid #ffc107; padding: 20px; border-radius: var(--radius-md); margin-bottom: 40px;">
+            <h4 style="margin-bottom: 10px; color: #856404;"><i class="fa-solid fa-triangle-exclamation"></i> 注意事項與說明：</h4>
+            <ul style="padding-left: 20px; font-size: 0.95rem; line-height: 1.8;">
+                <li>請務必先到法警室完成『當事人報到作業』。</li>
+                <li>本資料僅供參考，如網路異常中斷服務，請依原開庭時間到庭。</li>
+                <li>為節省網路資源，僅可查得今日上午或下午偵查庭開庭進度，本服務不含臨時庭。</li>
+                <li>提醒您，本查詢系統僅需輸入與案件相關之資訊，<strong>勿輸入個人銀行帳戶、密碼或金融相關資料</strong>，以免遭詐騙。如遇可疑訊息，請撥打165反詐騙專線。</li>
+            </ul>
+        </div>
+
+        <!-- 查詢表單 -->
+        <form class="query-form" id="courtQueryForm" style="background: white; padding: 30px; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); margin-bottom: 40px;">
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label for="agency" style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--primary-dark);">選擇機關</label>
+                <select id="agency" style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 1rem;">
+                    <option value="TDP">臺灣臺島地方檢察署</option>
+                </select>
             </div>
-            
-            <table style="width:100%; border-collapse:collapse; margin-top:20px;">
-                <thead>
-                    <tr style="background:var(--primary-color); color:white;">
-                        <th style="padding:15px; border:1px solid #ddd;">偵查庭</th>
-                        <th style="padding:15px; border:1px solid #ddd;">案號</th>
-                        <th style="padding:15px; border:1px solid #ddd;">預定時間</th>
-                        <th style="padding:15px; border:1px solid #ddd;">目前狀態</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td style="padding:15px; border:1px solid #ddd; text-align:center;">第 1 偵查庭</td>
-                        <td style="padding:15px; border:1px solid #ddd; text-align:center;">115年度偵字第00123號</td>
-                        <td style="padding:15px; border:1px solid #ddd; text-align:center;">14:00</td>
-                        <td style="padding:15px; border:1px solid #ddd; text-align:center; color:#cc0000; font-weight:700;">進行中</td>
-                    </tr>
-                    <tr style="background:#f9f9f9;">
-                        <td style="padding:15px; border:1px solid #ddd; text-align:center;">第 2 偵查庭</td>
-                        <td style="padding:15px; border:1px solid #ddd; text-align:center;">115年度他字第00567號</td>
-                        <td style="padding:15px; border:1px solid #ddd; text-align:center;">14:30</td>
-                        <td style="padding:15px; border:1px solid #ddd; text-align:center; color:#666;">待開庭</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--primary-dark);">輸入案號</label>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <input type="number" id="year" placeholder="年度" style="flex: 1; padding: 12px; border: 1px solid var(--border-color); border-radius: var(--radius-sm);">
+                    <span>年</span>
+                    <input type="text" id="word" placeholder="字別" style="flex: 1; padding: 12px; border: 1px solid var(--border-color); border-radius: var(--radius-sm);">
+                    <span>字第</span>
+                    <input type="number" id="number" placeholder="號" style="flex: 1; padding: 12px; border: 1px solid var(--border-color); border-radius: var(--radius-sm);">
+                    <span>號</span>
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 25px;">
+                <label for="sequence" style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--primary-dark);">傳票上之開庭進度查詢序號</label>
+                <input type="text" id="sequence" placeholder="請輸入序號 (如: A1234)" style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: var(--radius-sm);">
+            </div>
+            <button type="submit" class="btn-primary" style="border:none; cursor:pointer; width:auto; padding: 15px 40px;">
+                <i class="fa-solid fa-magnifying-glass"></i> 開始查詢
+            </button>
+        </form>
+
+        <!-- 查詢結果區 (範例顯示) -->
+        <div id="resultArea">
+            <h3 style="margin-bottom: 20px; color: var(--primary-dark);">查詢結果範例</h3>
+            <div class="result-card" style="background: white; padding: 25px; border-radius: var(--radius-md); border-left: 5px solid var(--primary-color); box-shadow: var(--shadow-sm);">
+                <div class="status-badge" style="display: inline-block; padding: 5px 12px; background: #e3f2fd; color: #0d47a1; border-radius: 20px; font-size: 0.85rem; font-weight: 700; margin-bottom: 15px;">
+                    <i class="fa-solid fa-circle-check"></i> 正在開庭中
+                </div>
+                <p style="margin-bottom: 10px;"><strong>案號：</strong> 115年度偵字第1234號</p>
+                <p style="margin-bottom: 10px;"><strong>開庭別：</strong> 偵查庭</p>
+                <p style="margin-bottom: 10px;"><strong>偵查庭位置：</strong> 第三偵查庭</p>
+                <p style="margin-bottom: 10px;"><strong>預定開庭時間：</strong> 14:30</p>
+                <p style="margin-top: 15px; color: var(--text-muted); font-size: 0.85rem;">
+                    <i class="fa-solid fa-info-circle"></i> 資料更新時間：2026-05-10 16:20:35
+                </p>
+            </div>
         </div>
     </main>
+
+    <footer class="site-footer">
+        <div class="container footer-bottom">
+            <p>&copy; 2026 臺灣臺島地方檢察署 版權所有</p>
+        </div>
+    </footer>
 </body>
 </html>

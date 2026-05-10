@@ -7,47 +7,64 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .login-container { height: 100vh; display: flex; align-items: center; justify-content: center; background: #f0f2f5; }
-        .login-card { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; max-width: 450px; width: 90%; }
-        .discord-btn { background: #5865F2; color: white; padding: 15px 30px; border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; font-weight: 600; margin-top: 20px; transition: 0.3s; width: 100%; justify-content: center; }
+        .login-container { height: 100vh; display: flex; align-items: center; justify-content: center; background: #f0f2f5; font-family: 'Noto Sans TC', sans-serif; }
+        .login-card { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; max-width: 500px; width: 95%; }
+        .discord-btn { background: #5865F2; color: white; padding: 15px 30px; border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; font-weight: 600; margin-top: 20px; transition: 0.3s; width: 100%; justify-content: center; border: none; font-size: 1.1rem; cursor: pointer; }
         .discord-btn:hover { background: #4752c4; transform: translateY(-2px); }
-        .uri-info { background: #fff3e0; padding: 10px; border-radius: 5px; font-size: 0.8rem; color: #e65100; margin-top: 20px; text-align: left; }
-        .dev-link { margin-top: 25px; font-size: 0.85rem; color: #0b5394; cursor: pointer; text-decoration: underline; font-weight: 500; }
+        .debug-box { background: #fff3e0; border: 1px solid #ffe0b2; padding: 20px; border-radius: 8px; margin-top: 30px; text-align: left; }
+        .debug-box h4 { color: #e65100; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        code { background: #eee; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-weight: bold; color: #d32f2f; word-break: break-all; }
+        .dev-link { margin-top: 20px; display: block; color: #0b5394; cursor: pointer; font-size: 0.9rem; }
     </style>
 </head>
 <body>
     <div class="login-container">
         <div class="login-card">
-            <i class="fa-solid fa-user-shield" style="font-size: 3.5rem; color: #0b5394; margin-bottom: 20px;"></i>
+            <i class="fa-solid fa-shield-halved" style="font-size: 3.5rem; color: #0b5394; margin-bottom: 20px;"></i>
             <h2>機關後台管理系統</h2>
-            <p style="color: #666; margin-top: 10px;">請使用授權之 Discord 帳號登入</p>
             
-            <a href="#" id="login-btn" class="discord-btn">
+            <!-- 登入按鈕 -->
+            <button id="login-btn" class="discord-btn">
                 <i class="fa-brands fa-discord"></i> 使用 Discord 登入
-            </a>
+            </button>
 
-            <div class="uri-info">
-                <strong><i class="fas fa-exclamation-triangle"></i> 重要設定提示：</strong><br>
-                請確保您的 Discord Redirect URI 設定為：<br>
-                <code id="current-uri" style="background:#eee; padding:2px 5px; display:block; margin-top:5px; word-break:break-all;"></code>
+            <!-- 除錯診斷區 -->
+            <div class="debug-box">
+                <h4><i class="fas fa-tools"></i> 登入問題診斷</h4>
+                <p id="env-warning" style="color: red; font-weight: bold; margin-bottom: 10px; display: none;">
+                    ⚠️ 偵測到您正在使用本地檔案開啟 (file://)，這會導致登入失敗！
+                </p>
+                <p style="font-size: 0.9rem; margin-bottom: 5px;">請將以下網址複製並貼到您的 Discord Developer Portal (Redirects):</p>
+                <code id="current-uri">載入中...</code>
+                <p style="font-size: 0.8rem; color: #666; margin-top: 10px;">
+                    設定路徑：Discord Dev Portal > OAuth2 > General > Redirects
+                </p>
             </div>
 
-            <div id="error-msg" style="color: #cc0000; margin-top: 15px; display: none; font-size: 0.9rem; background: #ffebee; padding: 10px; border-radius: 5px;"></div>
+            <div id="error-msg" style="color: #cc0000; margin-top: 15px; display: none; background: #ffebee; padding: 10px; border-radius: 5px;"></div>
 
-            <div class="dev-link" onclick="devLogin()">開發者快速進入 (點此繞過驗證)</div>
+            <a class="dev-link" onclick="devLogin()">測試模式：跳過登入直接進入後台</a>
         </div>
     </div>
 
     <script>
-        const CLIENT_ID = '1502945484908662905'; 
-        const REDIRECT_URI = window.location.href.split('#')[0].split('?')[0];
+        const CLIENT_ID = '1502945484908662905';
+        const REDIRECT_URI = window.location.origin + window.location.pathname;
+        
         document.getElementById('current-uri').innerText = REDIRECT_URI;
 
-        const loginBtn = document.getElementById('login-btn');
-        loginBtn.href = `https://discord.com/api/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=token&scope=identify`;
+        // 偵測是否為本地檔案
+        if (window.location.protocol === 'file:') {
+            document.getElementById('env-warning').style.display = 'block';
+        }
+
+        document.getElementById('login-btn').onclick = () => {
+            const url = `https://discord.com/api/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=token&scope=identify`;
+            window.location.href = url;
+        };
 
         function devLogin() {
-            localStorage.setItem('admin_token', 'dev_test_token');
+            localStorage.setItem('admin_token', 'dev_test');
             localStorage.setItem('admin_user', 'benzcclas');
             window.location.href = 'admin-dashboard.html';
         }
@@ -55,6 +72,14 @@
         window.onload = () => {
             const fragment = new URLSearchParams(window.location.hash.slice(1));
             const accessToken = fragment.get('access_token');
+            const error = fragment.get('error');
+
+            if (error) {
+                const msg = document.getElementById('error-msg');
+                msg.innerText = `Discord 錯誤：${fragment.get('error_description') || error}`;
+                msg.style.display = 'block';
+            }
+
             if (accessToken) {
                 fetch('https://discord.com/api/users/@me', { headers: { authorization: `Bearer ${accessToken}` } })
                 .then(res => res.json())
@@ -64,11 +89,10 @@
                         localStorage.setItem('admin_user', user.username);
                         window.location.href = 'admin-dashboard.html';
                     } else {
-                        const error = document.getElementById('error-msg');
-                        error.innerText = `帳號 ${user.username} 不在授權名單中。`;
-                        error.style.display = 'block';
+                        document.getElementById('error-msg').innerText = `帳號 ${user.username} 未獲授權。`;
+                        document.getElementById('error-msg').style.display = 'block';
                     }
-                }).catch(err => console.error(err));
+                });
             }
         };
     </script>
