@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>臺灣臺島地方檢察署</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <a href="#main-content" class="skip-link">跳至主內容區</a>
+    <div class="top-bar">
+        <div class="container top-bar-inner">
+            <div class="top-links">
+                <a href="index.html"><i class="fas fa-home"></i> 回首頁</a>
+                <a href="#">網站導覽</a>
+                <a href="#">常見問答</a>
+                <a href="#">檢察長信箱</a>
+            </div>
+            <div class="font-size-controls">
+                <span>字體大小：</span>
+                <button class="font-btn" id="font-sm">A-</button>
+                <button class="font-btn active" id="font-md">A</button>
+                <button class="font-btn" id="font-lg">A+</button>
+            </div>
+        </div>
+    </div>
+    <header class="main-header">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-img-placeholder"><i class="fas fa-balance-scale"></i></div>
+                <div class="logo-text">
+                    <h1>臺灣臺島地方檢察署</h1>
+                    <p>Taiwan Taidao District Prosecutors Office</p>
+                </div>
+            </a>
+            <nav class="main-nav">
+                <ul class="nav-menu">
+                    <li class="dropdown"><a href="#">關於本署 <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">本署簡介</a></li>
+                            <li><a href="#">歷史沿革</a></li>
+                            <li><a href="#">組織架構</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="guide.html">民眾導覽</a></li>
+                    <li class="dropdown"><a href="#">資訊公開 <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">最新消息</a></li>
+                            <li><a href="#">電子公布欄</a></li>
+                            <li><a href="#">公示送達</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a href="#">訴訟輔導 <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">書狀範例</a></li>
+                            <li><a href="#">常見問題</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="protection.html">司法保護</a></li>
+                </ul>
+                <div class="search-box">
+                    <input type="text" placeholder="站內搜尋...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <main id="main-content">
+        <section class="hero-banner">
+            <div class="container banner-content">
+                <h2>追訴犯罪 伸張正義</h2>
+                <p>謹守法律 / 維護公義 / 安定人心 / 穩定社會</p>
+                <div class="banner-actions">
+                    <a href="#" class="btn-primary">最新消息</a>
+                    <a href="#" class="btn-secondary">認識本署</a>
+                </div>
+            </div>
+        </section>
+        <section class="container quick-services-section">
+            <div class="quick-services">
+                <a href="#" class="service-card"><div class="service-icon"><i class="fas fa-gavel"></i></div><h3>國民法官</h3></a>
+                <a href="#" class="service-card"><div class="service-icon"><i class="fas fa-file-signature"></i></div><h3>線上申辦</h3></a>
+                <a href="#" class="service-card"><div class="service-icon"><i class="fas fa-hammer"></i></div><h3>查扣物拍賣</h3></a>
+                <a href="#" class="service-card"><div class="service-icon"><i class="fas fa-user-graduate"></i></div><h3>訴訟輔導</h3></a>
+                <a href="#" class="service-card"><div class="service-icon"><i class="fas fa-phone-alt"></i></div><h3>電話分機</h3></a>
+            </div>
+        </section>
+        <section class="container news-section">
+            <div class="section-header"><h2>最新公告</h2><a href="#" class="view-all">更多消息 <i class="fas fa-arrow-right"></i></a></div>
+            <div class="news-container">
+                <div class="news-tabs">
+                    <button class="tab-btn active" data-tab="announcements">公告資訊</button>
+                    <button class="tab-btn" data-tab="press">新聞發布</button>
+                </div>
+                <div id="announcements" class="news-content active">
+                    <a href="#" class="news-item">
+                        <div class="news-meta"><span class="news-date">2026-05-10</span><span class="tag tag-blue" style="background:#0b5394;color:white;padding:2px 8px;border-radius:4px;margin-right:10px;font-size:0.8rem;">公告</span></div>
+                        <span class="news-title">公示送達本署115年度他字第11505001號傳票乙件</span>
+                    </a>
+                </div>
+                <div id="press" class="news-content">
+                    <a href="#" class="news-item">
+                        <div class="news-meta"><span class="news-date">2026-05-09</span><span class="tag tag-red" style="background:#cc0000;color:white;padding:2px 8px;border-radius:4px;margin-right:10px;font-size:0.8rem;">新聞</span></div>
+                        <span class="news-title">本署偵辦某詐騙集團案件今日提起公訴</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div class="footer-info">
+                <div class="footer-logo"><i class="fas fa-balance-scale"></i><span>臺灣臺島地方檢察署</span></div>
+                <ul class="contact-list">
+                    <li><i class="fas fa-map-marker-alt"></i> 100 臺島市中正區司法大道2號</li>
+                    <li><i class="fas fa-phone"></i> 總機：(02) 2345-6789</li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h3>常用連結</h3>
+                <ul><li><a href="#">隱私權政策</a></li><li><a href="#">資訊安全政策</a></li></ul>
+            </div>
+        </div>
+        <!-- 點擊版權宣告可進入隱藏後台 -->
+        <div class="footer-bottom" style="cursor: pointer;" onclick="window.location.href='admin-login.html'">
+            <div class="container"><p>&copy; 2026 臺灣臺島地方檢察署 版權所有 (Admin Login)</p></div>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
