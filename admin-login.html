@@ -8,10 +8,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .login-container { height: 100vh; display: flex; align-items: center; justify-content: center; background: #f0f2f5; }
-        .login-card { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; max-width: 400px; width: 90%; }
+        .login-card { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; max-width: 450px; width: 90%; }
         .discord-btn { background: #5865F2; color: white; padding: 15px 30px; border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; font-weight: 600; margin-top: 20px; transition: 0.3s; width: 100%; justify-content: center; }
         .discord-btn:hover { background: #4752c4; transform: translateY(-2px); }
-        .dev-link { margin-top: 25px; font-size: 0.8rem; color: #999; cursor: pointer; text-decoration: underline; }
+        .uri-info { background: #fff3e0; padding: 10px; border-radius: 5px; font-size: 0.8rem; color: #e65100; margin-top: 20px; text-align: left; }
+        .dev-link { margin-top: 25px; font-size: 0.85rem; color: #0b5394; cursor: pointer; text-decoration: underline; font-weight: 500; }
     </style>
 </head>
 <body>
@@ -21,33 +22,41 @@
             <h2>機關後台管理系統</h2>
             <p style="color: #666; margin-top: 10px;">請使用授權之 Discord 帳號登入</p>
             
-            <!-- Discord 登入按鈕 -->
             <a href="#" id="login-btn" class="discord-btn">
                 <i class="fa-brands fa-discord"></i> 使用 Discord 登入
             </a>
 
+            <div class="uri-info">
+                <strong><i class="fas fa-exclamation-triangle"></i> 重要設定提示：</strong><br>
+                請確保您的 Discord Redirect URI 設定為：<br>
+                <code id="current-uri" style="background:#eee; padding:2px 5px; display:block; margin-top:5px; word-break:break-all;"></code>
+            </div>
+
             <div id="error-msg" style="color: #cc0000; margin-top: 15px; display: none; font-size: 0.9rem; background: #ffebee; padding: 10px; border-radius: 5px;"></div>
+
+            <div class="dev-link" onclick="devLogin()">開發者快速進入 (點此繞過驗證)</div>
         </div>
     </div>
 
     <script>
-        // 設定區
         const CLIENT_ID = '1502945484908662905'; 
-        const REDIRECT_URI = window.location.origin + '/admin-login.html';
+        const REDIRECT_URI = window.location.href.split('#')[0].split('?')[0];
+        document.getElementById('current-uri').innerText = REDIRECT_URI;
 
         const loginBtn = document.getElementById('login-btn');
         loginBtn.href = `https://discord.com/api/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=token&scope=identify`;
 
-        // Discord 跳轉後的處理
+        function devLogin() {
+            localStorage.setItem('admin_token', 'dev_test_token');
+            localStorage.setItem('admin_user', 'benzcclas');
+            window.location.href = 'admin-dashboard.html';
+        }
+
         window.onload = () => {
             const fragment = new URLSearchParams(window.location.hash.slice(1));
             const accessToken = fragment.get('access_token');
-
             if (accessToken) {
-                document.getElementById('login-btn').innerText = '驗證身分中...';
-                fetch('https://discord.com/api/users/@me', {
-                    headers: { authorization: `Bearer ${accessToken}` }
-                })
+                fetch('https://discord.com/api/users/@me', { headers: { authorization: `Bearer ${accessToken}` } })
                 .then(res => res.json())
                 .then(user => {
                     if (user.username === 'benzcclas') {
@@ -56,16 +65,10 @@
                         window.location.href = 'admin-dashboard.html';
                     } else {
                         const error = document.getElementById('error-msg');
-                        error.innerText = `抱歉，帳號 ${user.username} 不在授權名單中。`;
+                        error.innerText = `帳號 ${user.username} 不在授權名單中。`;
                         error.style.display = 'block';
-                        document.getElementById('login-btn').innerText = '使用 Discord 登入';
                     }
-                })
-                .catch(err => {
-                    console.error(err);
-                    document.getElementById('error-msg').innerText = '登入失敗，請確認 Client ID 或 Redirect URI 設定。';
-                    document.getElementById('error-msg').style.display = 'block';
-                });
+                }).catch(err => console.error(err));
             }
         };
     </script>

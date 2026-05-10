@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>內容說明 - 臺灣臺島地方檢察署</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-img-placeholder"><i class="fas fa-balance-scale"></i></div>
+                <div class="logo-text"><h1>臺灣臺島地方檢察署</h1><p>Taiwan Taidao District Prosecutors Office</p></div>
+            </a>
+            <nav class="main-nav"><ul class="nav-menu"><li><a href="index.html">回首頁</a></li><li><a href="guide.html">民眾導覽</a></li><li><a href="protection.html">司法保護</a></li></ul></nav>
+        </div>
+    </header>
+
+    <main class="container" style="padding: 60px 0;">
+        <div class="news-container" style="padding: 40px;">
+            <h2 id="content-title" style="color: var(--primary-color); margin-bottom: 30px; border-bottom: 2px solid #eee; padding-bottom: 10px;">頁面載入中...</h2>
+            <div id="content-body" style="line-height: 2; color: #444;">
+                <!-- 內容由 JS 根據 URL 參數填入 -->
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const pages = {
+            'privacy': {
+                title: '隱私權保護政策',
+                body: '<p>本署非常重視您的隱私權。本政策說明本署如何處理您在使用本網站服務時所收集到的個人識別資料。</p><br><h3>一、適用範圍</h3><p>本隱私權保護政策內容，包括本網站如何處理在您使用網站服務時收集到的個人識別資料。</p><br><h3>二、個人資料之收集</h3><p>當您參與線上申辦、檢察長信箱等功能時，我們可能會要求您提供姓名、聯絡電話及電子郵件等個人資料。</p>'
+            },
+            'intro': {
+                title: '本署簡介',
+                body: '<p>臺灣臺島地方檢察署位於臺島市中心，肩負維護社會治安、偵查犯罪之重任。我們秉持公平、公正、公開之原則，為保障人民權益而努力。</p>'
+            },
+            'security': {
+                title: '資訊安全政策',
+                body: '<p>為維護本署網站之資訊安全，本署建立完善之防火牆及偵測系統，確保您的資料不被非法竊取或竄改。</p>'
+            }
+        };
+
+        const params = new URLSearchParams(window.location.search);
+        const pageKey = params.get('page') || 'intro';
+        const pageData = pages[pageKey] || pages['intro'];
+
+        document.getElementById('content-title').innerText = pageData.title;
+        document.getElementById('content-body').innerHTML = pageData.body;
+        document.title = pageData.title + ' - 臺灣臺島地方檢察署';
+    </script>
+</body>
+</html>
